@@ -250,6 +250,7 @@ node* mergerecursive(node* &head1,node* &head2) {
         result = head2;
         result->next = mergerecursive(head1, head2->next);
     }
+    return result;
 }
 
 #define FIO ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0)

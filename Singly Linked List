@@ -261,6 +261,24 @@ void removeCycle(node*& head) {
 * we get m+n=l*(j-2*i)
 */
 
+// Put all even position nodes after all odd position nodes
+void evenAfterOdd(node*& head) {
+    node* odd = head;
+    node* even = head->next;
+    node* evenStart = even;
+    while (odd->next != NULL && even->next != NULL) {
+        odd->next = even->next;
+        odd = odd->next;
+        even->next = odd->next;
+        even = even->next;
+    }
+    odd->next = evenStart;
+    if (odd->next != NULL) {
+        even->next = NULL;
+    }
+}
+
+
 #define FIO ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0)
 #define test ll t; cin>>t; while(t--)
 int main()

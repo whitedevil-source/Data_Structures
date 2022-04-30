@@ -184,7 +184,82 @@ node* reverseRecursive(node* &head) {
     head->next = NULL;
     return newhead;
 }
+//Linked list examples
+// Reverse k nodes in a linked list
+node* reversek(node*& head, int k) {
+    node* prevptr = NULL;
+    node* currptr = head;
+    node* nextptr;
+    
+    int count = 0;
+    while (currptr != NULL && count < k) {
+        nextptr = currptr->next;
+        currptr->next = prevptr;
+        prevptr = currptr;
+        currptr = nextptr;
+        count++;
+    }
+    
+    if (nextptr != NULL) {
+        head->next = reversek(nextptr, k);
+    }
+    return prevptr; //prevptr is the newhead during the recursive call
+    
+}
 
+// Cycle Detection and Removal
+//FLOYD's algorithm
+void makeCycle(node*& head, int pos) {
+    node* temp = head;
+    node* startNode;
+    
+    int count = 1;
+    while (temp->next != NULL) {
+        if (count == pos) {
+            startNode = temp;
+        }
+        temp = temp->next;
+        count++;
+    }
+    temp->next = startNode;
+}
+
+bool detectCycle(node*& head) {
+    node* slow = head;
+    node* fast = head;
+    
+    while (fast!=NULL && fast->next!=NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+        if (fast == slow) return true;
+    }
+    return false;
+}
+
+void removeCycle(node*& head) {
+    node* slow = head;
+    node* fast = head;
+
+    do {
+        slow = slow->next;
+        fast = fast->next->next;
+    } while (slow != fast);
+
+    fast = head;
+    while (slow->next != fast->next) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    slow->next = NULL;
+}
+
+/*
+* Proof of floyd's algorithm:
+* Distance moved by fastptr=m+n+l*j
+* Distance moved by slowptr=m+n+l*i
+* Distance moved by fastptr is twice the distance moved by slowptr
+* we get m+n=l*(j-2*i)
+*/
 
 #define FIO ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0)
 #define test ll t; cin>>t; while(t--)
